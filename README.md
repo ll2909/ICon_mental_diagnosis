@@ -1,3 +1,4 @@
 # ICon_mental_diagnosis
 
-Knowledge Engineering project.
+Knowledge Engineering project, Academic Year 2020-2021.
+
