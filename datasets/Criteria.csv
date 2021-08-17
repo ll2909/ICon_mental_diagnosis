@@ -1,0 +1,214 @@
+id,name,category
+1,intellectual function deficits,h
+2,adaptive function deficits,h
+3,deficits during developmental period,h
+4,iQ 50 to 70,h
+5,iQ 35 to 50,h
+6,iQ 25 to 35,h
+7,iQ below 25,h
+8,developmental agnosia,i
+9,difficulties using language,i
+10,Reduced vocabulary,i
+11,Limited sentence structure,i
+12,impairments in discourse,i
+13,difficult speech sound production,i
+14,Limited communication,i
+15,Stuttering,i
+16,difficulties following conversation rules,i
+17,difficulties making inferences,i
+18,dyslalia,i
+19,Lisping,i
+20,deficits in social-emotional reciprocity,i
+21,difficulties to understand relationships,i
+22,abnormal eye contact,i
+23,abnormal social approach,i
+24,Lack of facial expression,i
+25,Motor stereotypies,i
+26,hyperreactivity to sensory input,i
+27,hyporeactivity,i
+28,inattention,j
+29,hyperactivity,j
+30,impulsivity,j
+31,inaccurate or slow reading,i
+32,difficulties understanding what is read,i
+33,Spelling difficulties,i
+34,difficulties with mathematics reasoning,i
+35,dyslexia,i
+36,Motor skills deficit,i
+37,Repetitive motor behavior,j
+38,Motor and vocal tics (Tourette),j
+39,Single motor tic,j
+40,Single vocal tic,j
+41,delusions,c
+42,hallucinations,c
+43,disorganized thinking or speech,c
+44,disorganized or abnormal motor behavior,c
+45,Negative,c
+46,Mood episode after period of illness,c
+47,echolalia,c
+48,echopraxia,c
+49,agitation,c
+50,No psychomotor activity,c
+51,catalepsy,c
+52,Waxy flexibility,c
+53,Mutism,c
+54,Mannerism,c
+55,Negativism,c
+56,expansive mood,d
+57,irritable mood,d
+58,grandiosity,d
+59,decreased need for sleep,d
+60,More talkative than usual,d
+61,distractibility,d
+62,depressed mood,d
+63,diminished interest or pleasure,d
+64,Significant weight loss,d
+65,Weight gain,d
+66,decrease appetite,d
+67,increase appetite,d
+68,insomnia,d
+69,hypersomnia,d
+70,Psychomotor agitation or retardation,d
+71,fatigue,d
+72,Worthlessness,d
+73,excessive guilt,d
+74,diminished ability to think or concentrate,d
+75,death or suicidal thoughts,d
+76,fluctuating mood disturbance,d
+77,Temper outburst,d
+78,hopelessness,d
+79,feeling restless,d
+80,feeling of losing self-control,d
+81,excessive distress when experiencing separation,j
+82,Reluctance to go out,j
+83,excessive worry about losing attachment figures,j
+84,Nightmares,j
+85,Repeated complaints of physical symptoms after separation,j
+86,failure to speak,j
+87,fear of animals,e
+88,fear cause by natural enviroment,e
+89,fear of needles,e
+90,Other types of fear,e
+91,fear during social interaction,e
+92,Palpitations,e
+93,Sweating,e
+94,Trembling,e
+95,Sensation of short breath or choking,e
+96,chest pain,e
+97,Nausea,e
+98,feeling dizzy,e
+99,chills,e
+100,heat sensation,e
+101,Paresthesias,e
+102,derealization,e
+103,fear of open spaces,e
+104,fear of being alone out of home,e
+105,excessive anxiety or worry,e
+106,difficulties to control the worry,e
+107,Sleep disturbance,e
+108,Obsessions,e
+109,compulsions,e
+110,Preoccupation of physical appereance flaws,e
+111,hoarding,e
+112,difficult discarding or parting with possessions,e
+113,excessive aquisition,e
+114,Recurrent hair pulling,g
+115,Skin-picking,e
+116,Minimal need of comfort when distressed,j
+117,Reduced reticent of approaching and interacting with unfamiliar adults,j
+118,Recurrent distressing memories of traumatic events,e
+119,avoidance of external reminders associated to the traumatic events,e
+120,hypervigilance,e
+121,disruption of identity,e
+122,Two or more distinct personality states,e
+123,inability to recall important autobiographical information,e
+124,depersonalization,e
+125,Thoughts related to somatic symptoms,e
+126,Preoccupation with having or aquiring a serious illness,e
+127,falsification of any kind of symptoms or disease,g
+128,Pica,f
+129,food regurgitation,j
+130,food avoidance,f
+131,anorexia,f
+132,bulimia,f
+133,binge-eating,f
+134,enuresis,j
+135,encopresis,j
+136,dysphoric dreams,f
+137,delayed ejaculation,f
+138,erectile disorder,f
+139,female orgasmic disorder,f
+140,genito-pelvic pain,f
+141,Male hypoactive sexual desire disorder,f
+142,Premature ejaculation,f
+143,gender dysphoria,g
+144,argumentive or defiant behavior,j
+145,Vindictiveness,j
+146,explosive disorder,g
+147,aggression to people or animals,j
+148,destrucion of properties,j
+149,Violation of rules,j
+150,Pyromania,g
+151,Kleptomania,g
+152,alcohol addiction,b
+153,alcohol intoxication,b
+154,alcohol withdrawal,b
+155,caffeine intoxication,b
+156,caffeine withdrawal,b
+157,cannabis addiction,b
+158,cannabis intoxication,b
+159,cannabis withdrawal,b
+160,Phencyclidine use disorder,b
+161,Other hallucinogen use disorder,b
+162,cocaine addiction,b
+163,cocaine intoxication,b
+164,cocaine withdrawal,b
+165,Tobacco dipendence,b
+166,Phencyclidine intoxication,
+167,incoordination,b
+168,Pupillary dilation,b
+169,blurring of vision,b
+170,Opioid addiction,b
+171,Opioid intoxication,b
+172,Opioid withdrawal,b
+173,Sedative or hypnotic use disorder,b
+174,Tobacco withdrawal,b
+175,disturbance in attention,b
+176,disturbance in cognition,a
+177,Neurocognitive disorder due to alzheimer,a
+178,frontotemporal neurocognitive disorder,a
+179,Neurocognitive disorder due to brain injury,a
+180,Substance-induced neurocognitive disorder,a
+181,Paranoid,g
+182,Reluctance to confide in others,g
+183,bear grudges,g
+184,Perception of not apparent attacks,g
+185,Recurrent suspicions,g
+186,Schizoid,g
+187,Prefence of solitary activities,g
+188,emotional coldness,g
+189,detachment from social relationships,g
+190,Odd beliefs,c
+191,Odd thinking,c
+192,eccentric behavior,c
+193,Lack of close friends,c
+194,Lack of remorse,g
+195,consistent irresponsibility,g
+196,emptyness,g
+197,borderline personality,g
+198,affective instability,g
+199,difficulty controlling anger,g
+200,Self-dramatization,g
+201,histrionic personality,g
+202,Suggestible,g
+203,entitlement,g
+204,Narcissitic Personality,g
+205,arrogance,g
+206,Lacks of empathy,g
+207,excessive dependence from others,g
+208,exhibitionism,g
+209,frotteurism,g
+210,Sexual Masochism,g
+211,Sexual Sadism,g
+212,Pedophilic disorder,g
+213,fetishitic disorder,g

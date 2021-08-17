@@ -1,0 +1,73 @@
+id,name,category
+F01,Vascular dementia,A
+F02,Dementia in other diseases classified elsewhere,A
+F03,Unspecified dementia,A
+F04,Amnestic disorder due to known physiological condition,A
+F05,Delirium due to known physiological condition,A
+F06,Other mental disorders due to known physiological condition,A
+F07,Personality and behavioral disorders due to known physiological condition,A
+F09,Unspecified mental disorder due to known physiological condition,A
+F10,Alcohol related disorders,B
+F11,Opioid related disorders,B
+F12,Cannabis related disorders,B
+F13,Sedative/hypnotic/anxiolytic related disorders,B
+F14,Cocaine related disorders,B
+F15,Other stimulant related disorders,B
+F16,Hallucinogen related disorders,B
+F17,Nicotine dependence,B
+F18,Inhalant related disorders,B
+F19,Other psychoactive substance related disorders,B
+F20,Schizophrenia,C
+F21,Schizotypal disorder,C
+F22,Delusional disorders,C
+F23,Brief psychotic disorder,C
+F24,Shared psychotic disorder,C
+F25,Schizoaffective disorders,C
+F28,Other psychotic disorder not due to a substance or known physiological condition,C
+F29,Unspecified psychosis not due to a substance or known physiological condition,C
+F30,Manic episode,D
+F31,Bipolar disorder,D
+F32,Depressive episode,D
+F33,Major depressive disorder recurrent,D
+F34,Persistent mood [affective] disorders,D
+F39,Unspecified mood [affective] disorder,D
+F40,Phobic anxiety disorders,E
+F41,Other anxiety disorders,E
+F42,Obsessive-compulsive disorder,E
+F43,Reaction to severe stress and adjustment disorders,E
+F44,Dissociative and conversion disorders,E
+F45,Somatoform disorders,E
+F48,Other nonpsychotic mental disorders,E
+F50,Eating disorders,F
+F51,Sleep disorders not due to a substance or known physiological condition,F
+F52,Sexual dysfunction not due to a substance or known physiological condition,F
+F53,Mental and behavioral disorders associated with the puerperium not elsewhere classified,F
+F54,Psychological and behavioral factors associated with disorders or diseases classified elsewhere,F
+F55,Abuse of non-psychoactive substances,F
+F59,Unspecified behavioral syndromes associated with physiological disturbances and physical factors,F
+F60,Specific personality disorders,G
+F63,Impulse disorders,G
+F64,Gender identity disorders,G
+F65,Paraphilias,G
+F66,Other sexual disorders,G
+F68,Other disorders of adult personality and behavior,G
+F69,Unspecified disorder of adult personality and behavior,G
+F70,Mild intellectual disabilities,H
+F71,Moderate intellectual disabilities,H
+F72,Severe intellectual disabilities,H
+F73,Profound intellectual disabilities,H
+F78,Other intellectual disabilities,H
+F79,Unspecified intellectual disabilities,H
+F80,Specific developmental disorders of speech and language,I
+F81,Specific developmental disorders of scholastic skills,I
+F82,Specific developmental disorder of motor function,I
+F84,Pervasive developmental disorders,I
+F88,Other disorders of psychological development,I
+F89,Unspecified disorder of psychological development,I
+F90,Attention-deficit hyperactivity disorders,J
+F91,Conduct disorders,J
+F93,Emotional disorders with onset specific to childhood,J
+F94,Disorders of social functioning with onset specific to childhood and adolescence,J
+F95,Tic disorder,J
+F98,Other behavioral and emotional disorders with onset usually occurring in childhood and adolescence,J
+F99,Mental disorder not otherwise specified,NOS

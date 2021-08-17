@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>main &#8212; mental diagnosis 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">mental diagnosis 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">main</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for main</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">BBN</span>
+<span class="kn">import</span> <span class="nn">mysql.connector</span>
+<span class="kn">import</span> <span class="nn">database</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">xml_parser</span> <span class="k">as</span> <span class="nn">xml</span>
+
+<div class="viewcode-block" id="inputSymptoms"><a class="viewcode-back" href="../rst/main.html#main.inputSymptoms">[docs]</a><span class="k">def</span> <span class="nf">inputSymptoms</span><span class="p">(</span><span class="n">conn</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funzione per inserire i sintomi dell&#39;utente</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    conn: connection</span>
+<span class="sd">        Connessione al database. Usato per verificare che l&#39;input sia corretto</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    input_list: list</span>
+<span class="sd">        Lista dei sintomi inseriti dall&#39;utente</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">input_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Insert at least one symptom. Press Enter when you&#39;re done.&quot;</span><span class="p">)</span>
+    <span class="n">stop</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">stop</span><span class="p">:</span>
+        <span class="n">sym</span> <span class="o">=</span> <span class="nb">input</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">sym</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_list</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Insert at least one symptom to continue.&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">sym</span><span class="p">:</span>
+            <span class="n">stop</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">database</span><span class="o">.</span><span class="n">ifValueExists</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="s2">&quot;criteria&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">sym</span><span class="p">):</span>
+            <span class="n">input_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sym</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Symptom not found.&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">input_list</span></div>
+
+<div class="viewcode-block" id="mergeList"><a class="viewcode-back" href="../rst/main.html#main.mergeList">[docs]</a><span class="k">def</span> <span class="nf">mergeList</span><span class="p">(</span><span class="n">listOfLists</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funzione per unire piú liste in una sola</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    listOfLists: list</span>
+<span class="sd">        Lista di liste</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mergedList: list</span>
+<span class="sd">        Unione delle liste in input</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">mergedList</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">listOfLists</span><span class="p">)):</span>
+        <span class="n">mergedList</span> <span class="o">+=</span> <span class="n">listOfLists</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>   
+
+    <span class="k">return</span> <span class="n">mergedList</span></div>
+
+<div class="viewcode-block" id="getPercList"><a class="viewcode-back" href="../rst/main.html#main.getPercList">[docs]</a><span class="k">def</span> <span class="nf">getPercList</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funzione che calcola la percentuale delle occorenze in una lista,</span>
+<span class="sd">    ottenuta dividendo il numero di occorenze per la lunghezza della lista</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    list: list</span>
+<span class="sd">        Lista contenente gli elementi</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    res: defaultdict</span>
+<span class="sd">        Dizionario le cui chiavi sono gli elementi della lista, i valori sono le percentuali</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">mergeList</span><span class="p">(</span><span class="nb">list</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">count</span><span class="p">:</span>
+        <span class="n">res</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">count</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+<div class="viewcode-block" id="getDictOccurences"><a class="viewcode-back" href="../rst/main.html#main.getDictOccurences">[docs]</a><span class="k">def</span> <span class="nf">getDictOccurences</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funzione che restituisce il numero di occorrenze degli elementi di una lista</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    l: list</span>
+<span class="sd">        Lista contenente gli elementi</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    occDict: dict</span>
+<span class="sd">         Dizionario le cui chiavi sono gli elementi della lista, i valori sono il numero di occorenze</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">occDict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">occDict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">occDict</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">occDict</span></div>
+
+<div class="viewcode-block" id="getPercOcc"><a class="viewcode-back" href="../rst/main.html#main.getPercOcc">[docs]</a><span class="k">def</span> <span class="nf">getPercOcc</span><span class="p">(</span><span class="n">dictOcc</span><span class="p">,</span> <span class="n">listLenght</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funzione che calcola la percentuale delle occorenze in un dizionario,</span>
+<span class="sd">    data la lunghezza della lista</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dictOcc: dict</span>
+<span class="sd">        Dizionario le cui chiavi sono gli elementi della lista, i valori sono il numero di occorenze</span>
+<span class="sd">    listLenght: int</span>
+<span class="sd">        Lunghezza della lista di partenza</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dictOcc: dict</span>
+<span class="sd">         Dizionario le cui chiavi sono gli elementi della lista, i valori sono le percentuali</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">dictOcc</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">dictOcc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">dictOcc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">listLenght</span>
+    <span class="k">return</span> <span class="n">dictOcc</span></div>
+
+<div class="viewcode-block" id="tabulateData"><a class="viewcode-back" href="../rst/main.html#main.tabulateData">[docs]</a><span class="k">def</span> <span class="nf">tabulateData</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">predDiag</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funzione che organizza i dati in forma tabulare</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    conn: connection</span>
+<span class="sd">        Connessione al database</span>
+<span class="sd">    predDiag:</span>
+<span class="sd">        Dizionario le cui chiavi sono le diagnosi, i valori sono le probabilità (in percentuale)</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    df: DataFrame</span>
+<span class="sd">         Dati organizzati in forma tabulare, le cui colonne sono il codice della diagnosi,</span>
+<span class="sd">         il rispettivo nome e percentuale</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">perc</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">predDiag</span><span class="p">:</span>
+        <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">database</span><span class="o">.</span><span class="n">getNameFromID</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="s2">&quot;diagnosis&quot;</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+        <span class="n">perc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">predDiag</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;code&quot;</span> <span class="p">:</span> <span class="n">predDiag</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="s2">&quot;name&quot;</span> <span class="p">:</span>  <span class="n">names</span><span class="p">,</span> <span class="s2">&quot;probability&quot;</span><span class="p">:</span> <span class="n">perc</span><span class="p">}</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span></div>
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../rst/main.html#main.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+
+    <span class="c1"># Connessione e creazione del database</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">database</span><span class="o">.</span><span class="n">mySQLConnect</span><span class="p">(</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="s1">&#39;root&#39;</span> <span class="p">,</span> <span class="s2">&quot;db@1D962&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">database</span><span class="o">.</span><span class="n">checkIfDbExists</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="s2">&quot;mentaldisorder&quot;</span><span class="p">):</span>
+        <span class="n">database</span><span class="o">.</span><span class="n">createDatabase</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="s2">&quot;mentaldisorder&quot;</span><span class="p">)</span>
+        <span class="n">database</span><span class="o">.</span><span class="n">createTablefromFile</span><span class="p">(</span><span class="s2">&quot;datasets/Diagnosis.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;diagnosis&quot;</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+        <span class="n">database</span><span class="o">.</span><span class="n">createTablefromFile</span><span class="p">(</span><span class="s2">&quot;datasets/Criteria.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;criteria&quot;</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+        <span class="n">database</span><span class="o">.</span><span class="n">createTablefromFile</span><span class="p">(</span><span class="s2">&quot;datasets/CritToDiag.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;crit2diag&quot;</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">database</span><span class="o">.</span><span class="n">useDatabase</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="s2">&quot;mentaldisorder&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Input dei sintomi</span>
+    <span class="n">sym_list</span> <span class="o">=</span> <span class="n">inputSymptoms</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+
+    <span class="c1"># Preprocessing</span>
+    <span class="n">diag</span> <span class="o">=</span> <span class="n">database</span><span class="o">.</span><span class="n">selectJoinID</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">sym_list</span><span class="p">,</span> <span class="s2">&quot;criteria&quot;</span><span class="p">,</span> <span class="s2">&quot;crit2diag&quot;</span><span class="p">,</span> <span class="s2">&quot;crit_id&quot;</span><span class="p">,</span> <span class="s2">&quot;diag_id&quot;</span><span class="p">)</span>
+    <span class="n">mergedList</span> <span class="o">=</span> <span class="n">mergeList</span><span class="p">(</span><span class="n">diag</span><span class="p">)</span>
+    <span class="n">categories</span> <span class="o">=</span> <span class="n">database</span><span class="o">.</span><span class="n">getValuesCategory</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="s2">&quot;criteria&quot;</span><span class="p">,</span> <span class="n">sym_list</span><span class="p">)</span>
+    <span class="n">probDiag</span> <span class="o">=</span> <span class="n">getPercList</span><span class="p">(</span><span class="n">categories</span><span class="p">)</span>
+    <span class="n">condProbDiag</span> <span class="o">=</span> <span class="n">BBN</span><span class="o">.</span><span class="n">getDiagProb</span><span class="p">(</span><span class="n">mergeList</span><span class="p">(</span><span class="n">categories</span><span class="p">))</span>
+    <span class="n">weightProb</span> <span class="o">=</span> <span class="n">BBN</span><span class="o">.</span><span class="n">getWeightProb</span><span class="p">(</span><span class="n">probDiag</span><span class="p">,</span> <span class="n">condProbDiag</span><span class="p">)</span>
+    <span class="n">occurences</span> <span class="o">=</span> <span class="n">getDictOccurences</span><span class="p">(</span><span class="n">mergedList</span><span class="p">)</span>
+    <span class="n">percDiag</span> <span class="o">=</span> <span class="n">getPercOcc</span><span class="p">(</span><span class="n">occurences</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">mergedList</span><span class="p">))</span>
+    <span class="c1"># Prediction</span>
+    <span class="n">finalProbCat</span> <span class="o">=</span> <span class="n">BBN</span><span class="o">.</span><span class="n">getFinalProbCat</span><span class="p">(</span><span class="n">weightProb</span><span class="p">)</span>
+    <span class="n">percDiag</span> <span class="o">=</span> <span class="n">BBN</span><span class="o">.</span><span class="n">predictDiag</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">finalProbCat</span><span class="p">,</span> <span class="n">percDiag</span><span class="p">)</span>
+
+    <span class="c1"># Output dei risultati</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">tabulateData</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">percDiag</span><span class="p">))</span>
+
+    <span class="c1"># Scelta da parte dell&#39;utente di avere piú info su una diagnosi tramite la lettura di una KB in formato xml</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">If you would like to have more information about a specific disorder, type the ICD code (Fxx), otherwhise press enter to terminate.&quot;</span><span class="p">)</span>
+    <span class="n">stop</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">stop</span><span class="p">:</span>
+        <span class="n">choise</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Input: &quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">choise</span><span class="p">:</span>
+            <span class="n">xml</span><span class="o">.</span><span class="n">getDiagInfo</span><span class="p">(</span><span class="s2">&quot;datasets/icd-f-section.xml&quot;</span><span class="p">,</span> <span class="n">choise</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">stop</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">mental diagnosis 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">main</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Luca Lobascio.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.1.2.
+    </div>
+  </body>
+</html>
