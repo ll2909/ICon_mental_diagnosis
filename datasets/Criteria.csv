@@ -164,7 +164,7 @@ id,name,category
 163,cocaine intoxication,b
 164,cocaine withdrawal,b
 165,Tobacco dipendence,b
-166,Phencyclidine intoxication,
+166,Phencyclidine intoxication,b
 167,incoordination,b
 168,Pupillary dilation,b
 169,blurring of vision,b
@@ -212,3 +212,23 @@ id,name,category
 211,Sexual Sadism,g
 212,Pedophilic disorder,g
 213,fetishitic disorder,g
+214,no risk awareness,h
+215,reticent to talk,i
+216,limited communication,i
+217,broken words,i
+218,sound repetitions,i
+219,odd gait,i
+220,clumsiness,i
+221,disruptive behavior,i
+222,mood lability,j
+223,attention delay,i
+224,choreiform movements,i
+225,palilalia,j
+226,coprolalia,j
+227,prenatal alcohol exposure,i
+228,dysphoric mood,c
+229,emotional turmoil,c
+230,confusion,c
+231,self-care difficulties,c
+232,poor insight,c
+233,resistance to treatment,d
