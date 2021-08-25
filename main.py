@@ -56,7 +56,8 @@ def mergeList(listOfLists):
 
     mergedList = []
     for i in range (0, len(listOfLists)):
-        mergedList += listOfLists[i][0]   
+        for j in range (0, len(listOfLists[i])):
+            mergedList.append(listOfLists[i][j][0])   
 
     return mergedList
 
@@ -168,18 +169,17 @@ def main():
     sym_list = inputSymptoms(conn)
 
     # Preprocessing
-    diag = database.selectJoinID(conn, sym_list, "criteria", "crit2diag", "crit_id", "diag_id")
+    diag = database.selectJoinID(conn, sym_list, "criteria", "crit2diag", "crit_id", "diag_id") # lista delle diagnosi correlate ai sintomi in input
     mergedList = mergeList(diag)
-    categories = database.getValuesCategory(conn, "criteria", sym_list)
-    probDiag = getPercList(categories)
-    condProbDiag = BBN.getDiagProb(mergeList(categories))
-    weightProb = BBN.getWeightProb(probDiag, condProbDiag)
-    occurences = getDictOccurences(mergedList)
-    percDiag = getPercOcc(occurences, len(mergedList))
+    categories = database.getValuesCategory(conn, "criteria", sym_list) # categorie dei sintomi in input
+    probDiag = getPercList(categories) # percentuale delle categorie in input
+    condProbDiag = BBN.getDiagProb(mergeList(categories)) # probabilità delle diagnosi condizionate dai sintomi
+    weightProb = BBN.getWeightProb(probDiag, condProbDiag) # calcolo probabilità pesate
+    occurences = getDictOccurences(mergedList) # occorrenze delle diagnosi correlate ai sintomi in input
+    percDiag = getPercOcc(occurences, len(mergedList)) # percentuale delle occorrenze
     # Prediction
-    finalProbCat = BBN.getFinalProbCat(weightProb)
-    percDiag = BBN.predictDiag(conn, finalProbCat, percDiag)
-
+    finalProbCat = BBN.getFinalProbCat(weightProb) # probabilità totale (somma delle probabiltà pesate) delle diagnosi della stessa categoria
+    percDiag = BBN.predictDiag(conn, finalProbCat, percDiag) # probabilità della diagnosi
     # Output dei risultati
     print(tabulateData(conn, percDiag))
 
