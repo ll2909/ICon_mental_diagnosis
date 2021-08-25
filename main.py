@@ -146,6 +146,7 @@ def tabulateData(conn, predDiag):
 
     names = []
     perc = []
+    predDiag = dict(sorted(predDiag.items(), key=lambda item: item[1], reverse=True))
     for k in predDiag:
         names.append(database.getNameFromID(conn, "diagnosis", k))
         perc.append(str(predDiag[k]) + "%")
@@ -177,9 +178,12 @@ def main():
     weightProb = BBN.getWeightProb(probDiag, condProbDiag) # calcolo probabilità pesate
     occurences = getDictOccurences(mergedList) # occorrenze delle diagnosi correlate ai sintomi in input
     percDiag = getPercOcc(occurences, len(mergedList)) # percentuale delle occorrenze
-    # Prediction
+    
     finalProbCat = BBN.getFinalProbCat(weightProb) # probabilità totale (somma delle probabiltà pesate) delle diagnosi della stessa categoria
+    
+    # Prediction
     percDiag = BBN.predictDiag(conn, finalProbCat, percDiag) # probabilità della diagnosi
+    
     # Output dei risultati
     print(tabulateData(conn, percDiag))
 
